@@ -1,26 +1,22 @@
 import operator
 
+def sort_dic(dic) :
+    sortList = list( sorted(dic.items(), key=operator.itemgetter(1), reverse = True) )
+    return sortList
 
-def txtSplit( filename ) :
-    f = open(filename, 'rt')
-    word_list = f.read().replace(".","").replace(",","").replace("!","").replace("\"","").replace("\'","").replace("?","").upper().split()
-    return word_list
+def solution() :
+    word_dic = {}
+    with open('Les_Miserables-Victor_Hugo.txt', 'r') as f :
+        words = f.read().upper().replace(".","").replace("?","").replace("!","").replace("-","").replace("/","").replace(",","").replace(":","").replace(";","").replace("\"","").replace("(","").replace(")","").replace("0","").replace("1","").replace("2","").replace("3","").replace("4","").replace("5","").replace("6","").replace("7","").replace("8","").replace("9","").replace(" '"," ").replace("' "," ").replace("\t'"," ").replace("'\n"," ").split()
 
-def wordCnt( w_list ) :
-    wordCount={}
-    for w in w_list :
-        if w not in wordCount :
-            wordCount[w] = 1
-        else :
-            wordCount[w] += 1
-    return wordCount
+    for word in words :
+        word_dic[word] = word_dic.get(word,0) + 1
 
-def sortDic( dic ) :
-    sorted_dic = sorted( dic.items(), key = operator.itemgetter(1) )
-    return sorted_dic
+    ret_list = sort_dic( word_dic )
 
-if __name__ == "__main__" :
-    unsort_dic = wordCnt( txtSplit('/home/namsic2/Les_Miserables-Victor_Hugo.txt') )
-    sorted_dic = sortDic( unsort_dic )
+    return ret_list
 
-    print( sorted_dic )
+if __name__ == '__main__' :
+    solution_list = solution()
+    for each in solution_list :
+        print(each)
