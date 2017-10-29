@@ -26,7 +26,7 @@ def REVERSE(x):
 # =======================================================================
 # Set the motor's true / false value to go forward.
 # =======================================================================
-forward = False
+forward = True
 
 # =======================================================================
 # Set the motor's true / false value to go opposite.
@@ -225,3 +225,4 @@ def pwm_low():
     LeftPwm.ChangeDutyCycle(0)
     RightPwm.ChangeDutyCycle(0)
     GPIO.cleanup()
+

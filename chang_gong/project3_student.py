@@ -58,36 +58,70 @@ pwm_setup()
 #  to perform the project3 with ultra sensor
 #  and swing turn
 # =======================================================================
-dis = 27  # ??
+dis = 17  # ??
 obstacle = 1
 
 # when obstacle=1, the power and
 # running time of the first turn
-SwingPr = 90  # student assignment (8)
-SwingTr = 0.9  # student assignment (9)
+SwingPr = 50  # student assignment (8)
+SwingTr = 0.7  # student assignment (9)
+spd = 25
 
 try:
-    while True:
-        # ultra sensor replies the distance back
-        distance = getDistance()
-        print('distance= ', distance)
 
-        # when the distance is above the dis, moving object forwards
-        if (distance > dis):
-            go_forward_any(50)
-            print('obstacle=', obstacle)
-
-        # when the distance is below the dis, moving object stops
-        else:
-            # stop and wait 1 second
-            stop()
-            sleep(1)
+#    leftSwingTurn(SwingPr, SwingTr)
+#    sleep(1)
+#    rightSwingTurn(SwingPr, SwingTr)
+#    sleep(1)
+#    leftPointTurn(SwingPr, SwingTr)
+#    sleep(1)
+#    rightPointTurn(SwingPr, SwingTr)
+#    sleep(1)
 
 
-            ########################################################
-            ### please continue the code or change the above code
-            ### # student assignment (10)
-            ########################################################
+    while getDistance() > dis:
+        print(getDistance())
+        go_forward_any(spd)
+    stop()
+    sleep(1)
+    rightSwingTurn(SwingPr, SwingTr*2)
+    print("rightSw")
+    sleep(1)
+
+    while getDistance() > dis:
+        print(getDistance())
+        go_forward_any(spd)
+    stop()
+    sleep(1)
+    rightPointTurn(SwingPr, SwingTr)
+    print("rightPt")
+    sleep(1)
+
+    go_forward(spd, 3)
+    sleep(1)
+    rightPointTurn(SwingPr, SwingTr)
+    print("Ut")
+    sleep(1)
+
+    while getDistance() > dis:
+        print(getDistance())
+        go_forward_any(spd)
+    stop()
+    sleep(1)
+    leftPointTurn(SwingPr, SwingTr)
+    print("leftPt")
+    sleep(1)
+
+    while getDistance() > dis:
+        print(getDistance())
+        go_forward_any(spd)
+    stop()
+    sleep(1)
+    leftSwingTurn(SwingPr, SwingTr*2)
+    print("leftSw")
+    sleep(1)
+    go_forward(spd, 3)
+    stop()
 
 
 # when the Ctrl+C key has been pressed,
