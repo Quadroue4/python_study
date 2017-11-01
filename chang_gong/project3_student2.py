@@ -63,9 +63,9 @@ obstacle = 1
 
 # when obstacle=1, the power and
 # running time of the first turn
-SwingPr = 50  # student assignment (8)
-SwingTr = 0.7  # student assignment (9)
-spd = 25
+SwingPr = 30  # student assignment (8)
+SwingTr = 0.70  # student assignment (9)
+spd = 30 
 
 try:
 
@@ -84,32 +84,8 @@ try:
         go_forward_any(spd)
     stop()
     sleep(1)
-    rightSwingTurn(SwingPr, SwingTr*2)
-    print("rightSw")
-    sleep(1)
-
-    while getDistance() > dis:
-        print(getDistance())
-        go_forward_any(spd)
-    stop()
-    sleep(1)
-    rightPointTurn(SwingPr, SwingTr)
-    print("rightPt")
-    sleep(1)
-
-    go_forward(spd, 3)
-    sleep(1)
-    rightPointTurn(SwingPr, SwingTr)
-    print("Ut")
-    sleep(1)
-
-    while getDistance() > dis:
-        print(getDistance())
-        go_forward_any(spd)
-    stop()
-    sleep(1)
     leftPointTurn(SwingPr, SwingTr)
-    print("leftPt")
+    print("leftPw")
     sleep(1)
 
     while getDistance() > dis:
@@ -120,6 +96,7 @@ try:
     leftSwingTurn(SwingPr, SwingTr*2)
     print("leftSw")
     sleep(1)
+
     go_forward(spd, 3)
     stop()
 

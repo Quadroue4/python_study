@@ -96,26 +96,39 @@ LeftPwm = GPIO.PWM(MotorLeft_PWM, 100)
 # =======================================================================
 RightPwm = GPIO.PWM(MotorRight_PWM, 100)
 
-
-def move(key):
+def move(key, status):
     if key == 'w':
         leftmotor(forward, 30)
         rightmotor(forward, 30)
+        status = 1
     elif key == 's':
         leftmotor(backward, 30)
         rightmotor(backward, 30)
+        status = -1
     elif key == 'a':
         leftmotor(backward, 70)
         rightmotor(forward, 70)
         sleep(0.2)
-        stop()
+        if status == 1:
+            move('w', status)
+        elif status == -1:
+            move('s', status)
+        else:
+            stop()
     elif key == 'd':
         leftmotor(forward, 70)
         rightmotor(backward, 70)
         sleep(0.2)
-        stop()
+        if status == 1:
+            move('w', status)
+        elif status == -1:
+            move('s', status)
+        else:
+            stop()
     elif key == 'f':
         stop()
+        status = 0
+    return status
 
 
 # =======================================================================
@@ -164,10 +177,11 @@ obstacle = 1
 spd = 0
 
 try:
-    key = ' '
-    while key != 'end':
-        key = input()
-        move(key)
+    key = ''
+    status = 0
+    while key != 'exit':
+        key = raw_input("move key : ")
+        status = move(key, status)
     stop()
 
 
