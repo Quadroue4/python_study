@@ -125,6 +125,13 @@ def getDistance():
     return dis
 
 
+def getSensor():
+    res = [GPIO.input(otd),
+           GPIO.input(otb),
+           GPIO.input(ota),
+           GPIO.input(otc),
+           GPIO.input(ote)]
+    return res
 
 # ===========================================================================
 # Main
@@ -134,7 +141,7 @@ if __name__ == '__main__':
     try:
         setup()
         while True:
-            ot_list = [otd, otb, ota, otc, ote]
+            ot_list = getSensor()
             dis = getDistance()
             print(ot_list)
             print(dis)
