@@ -2,10 +2,15 @@ import RPi.GPIO as GPIO
 import time
 
 # =======================================================================
+# Setup
+# =======================================================================
+
 def setup():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
 
+    global MotorLeft_A, MotorLeft_B, MotorLeft_PWM
+    global MotorRight_A, MotorRight_B, MotorRight_PWM 
     MotorLeft_A = 12
     MotorLeft_B = 11
     MotorLeft_PWM = 35
@@ -13,9 +18,11 @@ def setup():
     MotorRight_B = 13
     MotorRight_PWM = 37
 
+    global trig, echo
     trig = 33
     echo = 31
 
+    global otd, otb, ota, otc, ote
     otd = 16
     otb = 18
     ota = 22
@@ -39,7 +46,7 @@ def setup():
     GPIO.setup(otc, GPIO.IN)
     GPIO.setup(ote, GPIO.IN)
 
-
+    global LeftPwm, RightPwm
     LeftPwm = GPIO.PWM(MotorLeft_PWM, 100)
     RightPwm = GPIO.PWM(MotorRight_PWM, 100)
 
@@ -48,7 +55,7 @@ def setup():
 
 
 # ===========================================================================
-# Move
+# Move / left(right)motor(spd), move(lspd, rspd, t), (left/right)stop()
 # ===========================================================================
 
 def leftmotor(speed):
@@ -104,8 +111,9 @@ def stop():
     leftstop()
     rightstop()
 
+
 # ===========================================================================
-# Get Data
+# Get Data / getDistance(), getSensor()
 # ===========================================================================
 
 def getDistance():
@@ -132,6 +140,7 @@ def getSensor():
            GPIO.input(otc),
            GPIO.input(ote)]
     return res
+
 
 # ===========================================================================
 # Main
