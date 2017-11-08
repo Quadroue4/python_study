@@ -1,27 +1,28 @@
-from raspcar.py import setup, getDistance, getSensor, move
+from raspcar import *
 
-def linetracing:
-    dis = 20
-    pwm = 70
-    dif = 10
+def linetracing():
+    dis = 1
+    pwm = 50
+    dif = 30
     while True:
         count = 0
         if getDistance() > dis:
-            sensor = getSensor()
-            arrow = sensor[0] + sensor[1] - sensor[3] - sensor[4]
-            if arrow > 0:
-                move(pwm, pwm+dif)
-            elif arrow < 0:
-                move(pwm+dif, pwm)
+            sensor = getSensor()  # 0 : black 1 : white
+            if not sensor[0]:
+                while sensor[2]:
+                    move(pwm - dif, pwm + dif, 0)
+            elif not sensor[4]:
+                while sensor[2]:
+                    move(pwm + dif, pwm - dif, 0)
             else:
-                move(pwm, pwm)
+                sensor[1] - sensor[3]
         else:
             move(0, 0, 1)
             avoid()
             while getSensor[3] == 0:
-                move(pwm, pwm)
+                move(pwm, pwm, 1)
             while getSensor[2] == 0:
-                move(pwm, 0)
+                move(pwm, 0, 1)
 
 
 def avoid():
@@ -39,5 +40,5 @@ if __name__ == '__main__':
         while True:
             linetracing()
     except KeyboardInterrupt:
-        move(0, 0)
+        move(0, 0, 0)
         GPIO.cleanup()

@@ -91,7 +91,7 @@ def move(leftspd, rightspd, t=-1):
     leftmotor(leftspd)
     rightmotor(rightspd)
 
-    if time > 0:
+    if t > 0:
         time.sleep(t)
         stop()
 
