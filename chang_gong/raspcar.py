@@ -114,7 +114,7 @@ def stop():
 # ===========================================================================
 # Get Data / getDistance(), getSensor()
 # ===========================================================================
-
+global distance
 def getDistance():
     GPIO.output(trig, False)
     time.sleep(0.5)
@@ -129,7 +129,8 @@ def getDistance():
     pulse_duration = pulse_end - pulse_start
     dis = pulse_duration * 17000
     dis = round(dis, 2)
-    return dis
+    distance = dis
+    #return dis
 
 
 def getSensor():
