@@ -29,7 +29,6 @@ def setup():
     otc = 40
     ote = 32
 
-
     GPIO.setup(MotorLeft_A, GPIO.OUT)
     GPIO.setup(MotorLeft_B, GPIO.OUT)
     GPIO.setup(MotorLeft_PWM, GPIO.OUT)
@@ -88,12 +87,12 @@ def rightmotor(speed):
         rightstop()
 
 
-def move(leftspd, rightspd, time = -1):
+def move(leftspd, rightspd, t=-1):
     leftmotor(leftspd)
     rightmotor(rightspd)
 
     if time > 0:
-        time.sleep(time)
+        time.sleep(t)
         stop()
 
 
@@ -154,7 +153,6 @@ if __name__ == '__main__':
             dis = getDistance()
             print(ot_list)
             print(dis)
-            #linetracing()
     except KeyboardInterrupt:
         stop()
         GPIO.cleanup()
