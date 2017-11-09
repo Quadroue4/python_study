@@ -68,7 +68,7 @@ def leftmotor(speed):
         GPIO.output(MotorLeft_B, GPIO.HIGH)
         GPIO.output(MotorLeft_PWM, GPIO.HIGH)
         LeftPwm.ChangeDutyCycle(-speed)
-    else: # speed == 0
+    else:  # speed == 0
         leftstop()
 
 
@@ -83,11 +83,11 @@ def rightmotor(speed):
         GPIO.output(MotorRight_B, GPIO.HIGH)
         GPIO.output(MotorRight_PWM, GPIO.HIGH)
         RightPwm.ChangeDutyCycle(-speed)
-    else: # speed == 0
+    else:  # speed == 0
         rightstop()
 
 
-def move(leftspd, rightspd, t=-1):
+def move(leftspd, rightspd, t=0):
     leftmotor(leftspd)
     rightmotor(rightspd)
 
@@ -114,7 +114,6 @@ def stop():
 # ===========================================================================
 # Get Data / getDistance(), getSensor()
 # ===========================================================================
-global distance
 def getDistance():
     GPIO.output(trig, False)
     time.sleep(0.5)
@@ -129,8 +128,25 @@ def getDistance():
     pulse_duration = pulse_end - pulse_start
     dis = pulse_duration * 17000
     dis = round(dis, 2)
-    distance = dis
-    #return dis
+    return dis
+
+
+def getDistance_start():
+    GPIO.output(trig, False)
+
+def getDistance_end():
+    GPIO.output(trig, True)
+    time.sleep(0.00001)
+    GPIO.output(trig, False)
+
+    while GPIO.input(echo) == 0:
+        pulse_start = time.time()
+    while GPIO.input(echo) == 1:
+        pulse_end = time.time()
+    pulse_duration = pulse_end - pulse_start
+    dis = pulse_duration * 17000
+    dis = round(dis, 2)
+    return dis
 
 
 def getSensor():
@@ -150,10 +166,11 @@ if __name__ == '__main__':
     try:
         setup()
         while True:
-            ot_list = getSensor()
             dis = getDistance()
-            print(ot_list)
+            ot_list = getSensor()
             print(dis)
+            print(ot_list)
+
     except KeyboardInterrupt:
         stop()
         GPIO.cleanup()

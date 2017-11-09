@@ -1,44 +1,61 @@
-from raspcar import *
-import  threading
+from raspcar import move, getDistance_start, getDistance_end, getSensor, setup
+import RPI.GPIO as GPIO
+import time
+
 
 def linetracing():
-    disthread = threading.Thread(target=getDistance())
-    dis = 1
-    pwm = 50
-    dif = 30
+    spd = 50
+    dif = 20
+    current_dis = 100
+    standard_dis = 30
     while True:
-        disthread.start()
         sensor = getSensor()
-        if dis < distance:
-            if sum(sensor) == 0:
-                move(0, 0, 0)
-                break
-            elif sensor[1] and not sensor[2] and sensor[3]: # [x 1 0 1 x]
-                move(90, 90, 0)
-            elif sensor[0] and not sensor[1] and sensor[2]: # [1 0 1 x x]
-                move(50, 70, 0)
-            elif not sensor[0]: # [0 x x x x]
-                move(0, 50, 0)
-            elif sensor[2] and not sensor[3] and sensor[4]:  # [x x 1 0 1]
-                move(70, 50, 0)
-            elif not sensor[4]:  # [x x x x 0]
-                move(50, 0, 0)
+        if current_dis <= standard_dis:
+            avoid()
+            current_dis = 100
+        # =============== getDistance ===============
+        if start_time == 0:
+            start_time = time.time()
+            getDistance_start()
+        if time.time() - start_time > 0.5:
+            current_dis = getDistance_end()
+            start_time = 0
+        # =============== getDistance ===============
+
+        # Move (0 : black, 1 : white)
+        if sensor == [0, 0, 0, 0, 0]:  # detect finish line
+            move(0, 0)
+            break
+        elif not sensor[2] and sensor[0] and sensor[4]:  # [1 x 0 x 1]
+            move(spd, spd)
+        elif not sensor[1]:  # [x 0 x x x]
+            move(spd, spd + dif)
+        elif not sensor[3]:  # [x x x 0 x]
+            move(spd + dif, spd)
+        elif not sensor[0]:  # [0 x x x x]
+            move(10, spd + dif)
+        elif not sensor[4]:  # [x x x x 0]
+            move(spd + dif, 10)
+        else:
+            move(-spd, -spd, 1)
+            move(spd, 0)
 
 
 def avoid():
-    pwm = 70
-    t = 0.5
-    move(pwm, -pwm, t)
-    move(pwm, pwm, 1)
-    move(-pwm, pwm, 2*t)
-    #move(pwm, pwm, 1)
+    spd = 70
+    turn_time = 0.5
+    move(0, 0, 1)
+    move(spd, 0, turn_time)
+    move(spd, spd, 1)
+    move(40, spd)
+    while getSensor()[2] == 1:
+        continue
 
 
 if __name__ == '__main__':
     try:
         setup()
-        while True:
-            linetracing()
+        linetracing()
     except KeyboardInterrupt:
         move(0, 0, 0)
         GPIO.cleanup()
