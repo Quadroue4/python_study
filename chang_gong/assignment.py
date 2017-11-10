@@ -2,7 +2,7 @@ from raspcar import move, getDistance_start, getDistance_end, getSensor, setup
 import RPI.GPIO as GPIO
 import time
 
-
+32
 def linetracing():
     spd = 50
     dif = 20
